@@ -1,31 +1,44 @@
-// 生成马戏团里的动物
-// 每个动物生成自带姓名，种类，技能
-// 每个动物可学习技能
-// 当学习技能的时候，马戏团的训练经验会有所增加
-// 马戏团不会训练无关的技能
-export abstract class  Animal {
-    private static Animals:Animal[] = []
-    abstract name:string;
-    abstract type:string;
-    protected abstract skill:string[]; 
-    constructor() {
-        Animal.Animals.push(this)
+// 构造函数的name参数用于定义小动物出场的时候自我介绍
+
+import { action, stunt } from "../interface/skill"
+
+// 而抽象成员type则用于判断不同动物所能学习的技能
+export abstract class Animals{
+    abstract type:string
+    constructor(public name:string){
+        this.sayHello()
     }
-    studySkills(targetName:string,skill:string):Animal|undefined{
-        const result = Animal.Animals.find(e => e.name == targetName && e.skill.indexOf(skill) != -1)
-        if(result) this.skill.push(skill)
-        return this
+    sayHello(){
+        console.log(`${this.name}出场了`)
     }
 }
-
-export class dog extends Animal{
-    type:string = "犬科"
-    name:string = "凯狗"
-    skill:string[] = ["叫嚣"]
+export class Lion extends Animals implements stunt{
+    type: string = "猫科"
+    singleFire(): void {
+        console.log(`${this.name}钻过了火圈`)
+    }
+    doubleFire(): void {
+        console.log(`${this.name}钻过了双层火圈`)
+    }
 }
-
-export class loin extends Animal{
-    type: string="猫科"
-    name: string = "狮子"
-    skill: string[] = ["跳火圈"]
+export class Dog extends Animals implements stunt{
+    type: string = "犬科"
+    singleFire(): void {
+        console.log(`${this.name}钻过了火圈`)
+    }
+    doubleFire(): void {
+        console.log(`${this.name}钻过了双层火圈`)
+    }
+}
+export class Monkey extends Animals implements action,stunt{
+    type: string = "灵长科"
+    kongFu(): void {
+        console.log(`${this.name}施展了功夫`)
+    }
+    singleFire(): void {
+        console.log(`${this.name}钻过了火圈`)
+    }
+    doubleFire(): void {
+        console.log(`${this.name}钻过了双层火圈`)
+    }
 }
